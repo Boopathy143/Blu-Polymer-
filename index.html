@@ -36,7 +36,11 @@ border:1px solid #374151;
 padding:8px;
 text-align:center;
 }
-
+a{
+background:blue;
+color:white;
+text-decoration: none;
+}
 input,select{
 width:100%;
 padding:6px;
@@ -61,7 +65,10 @@ button:nth-child(4){
 background:#22c55e;
 color:white;
 }
-
+button:nth-child(5){
+background:blue;
+color:white;
+}
 .low{background:#dc2626;}
 .high{background:#ea580c;}
 .ok{background:#16a34a;}
@@ -127,6 +134,7 @@ page-break-inside:avoid;
 <div class="top">
 Brand:
 <select id="brand">
+<option>SELECT</option>  
 <option>OOM GOLD</option>
 <option>NIHAR GOLD</option>
 <option>OOM ADVANCE</option>
@@ -135,6 +143,7 @@ Brand:
 
 SKU:
 <select id="sku">
+<option>SELECT</option>
 <option>35FT</option>
 <option>50FT</option>
 <option>60FT</option>
@@ -145,6 +154,7 @@ SKU:
 
 <button onclick="clearAll()">Clear</button>
 <button onclick="downloadPDF()">PDF</button>
+<button><a href="https://boopathy143.github.io/Production-/">Production</a></button>
 </div>
 
 <div class="spec">
