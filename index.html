@@ -2,11 +2,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-<!-- MOBILE FIX -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Oil Filling Weight Checker</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
 body{
@@ -38,11 +37,29 @@ padding:8px;
 text-align:center;
 }
 
-input{
+input,select{
 width:100%;
 padding:6px;
 box-sizing:border-box;
 text-align:center;
+}
+
+button{
+padding:10px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:nth-child(3){
+background:#ef4444;
+color:white;
+}
+
+button:nth-child(4){
+background:#22c55e;
+color:white;
 }
 
 .low{background:#dc2626;}
@@ -61,12 +78,74 @@ gap:10px;
 align-items:center;
 flex-wrap:wrap;
 }
+
+.top{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+flex-wrap:wrap;
+}
+
+/* PRINT FIX */
+@media print {
+
+body{
+background:white !important;
+color:black !important;
+}
+
+h2, span, th, td, label, div{
+color:black !important;
+}
+
+button{
+display:none !important;
+}
+
+/* single page shrink */
+#pdfArea{
+transform:scale(0.92);
+transform-origin:top left;
+width:100%;
+}
+
+table{
+page-break-inside:avoid;
+}
+
+}
+
 </style>
 </head>
 
 <body>
 
+<div id="pdfArea">
+
 <h2>Oil Filling Net Weight Checker</h2>
+
+<div class="top">
+Brand:
+<select id="brand">
+<option>OOM GOLD</option>
+<option>NIHAR GOLD</option>
+<option>OOM ADVANCE</option>
+<option>NIHAR ADVANCE</option>
+</select>
+
+SKU:
+<select id="sku">
+<option>35FT</option>
+<option>50FT</option>
+<option>60FT</option>
+<option>90FT</option>
+<option>160FT</option>
+<option>450FT</option>
+</select>
+
+<button onclick="clearAll()">Clear</button>
+<button onclick="downloadPDF()">PDF</button>
+</div>
 
 <div class="spec">
 Spec Min:
@@ -106,7 +185,10 @@ Total Net Weight: <span id="total">0</span><br>
 Average Net Weight: <span id="avg">0</span>
 </div>
 
+</div>
+
 <script>
+
 function calc(){
 let b=document.querySelectorAll(".b");
 let c=document.querySelectorAll(".c");
@@ -160,6 +242,29 @@ e[i].classList.remove("low","high","ok");
 document.getElementById("total").innerText=total.toFixed(2);
 document.getElementById("avg").innerText=count? (total/count).toFixed(2):0;
 }
+
+function clearAll(){
+document.querySelectorAll("input").forEach(i=>i.value="");
+document.querySelectorAll(".d").forEach(i=>i.innerText="0");
+document.querySelectorAll(".e").forEach(i=>i.innerText="0");
+document.getElementById("total").innerText="0";
+document.getElementById("avg").innerText="0";
+}
+
+function downloadPDF(){
+let element=document.getElementById("pdfArea");
+
+let opt = {
+margin:0.3,
+filename:'Weight_Report.pdf',
+image:{ type:'jpeg', quality:0.98 },
+html2canvas:{ scale:1.2 },
+jsPDF:{ unit:'in', format:'a4', orientation:'portrait' }
+};
+
+html2pdf().set(opt).from(element).save();
+}
+
 </script>
 
 </body>
